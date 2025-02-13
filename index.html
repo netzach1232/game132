@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אתר בדיקות להגרלות</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>אתר בדיקות להגרלות</h1>
+        <h3>בחר את הקלף שלך:</h3>
+        
+        <label>עלה:</label>
+        <select id="alea"></select>
+        
+        <br>
+        <label>סכום ההימור:</label>
+        <select id="bet">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="40">40</option>
+            <option value="80">80</option>
+            <option value="160">160</option>
+        </select>
+        
+        <br>
+        <button onclick="drawLottery()">הגרל</button>
+        <button onclick="resetLottery()">איפוס</button>
+        
+        <div class="results" id="results">תוצאות יופיעו כאן</div>
+        <div class="winnings" id="winnings">סכום זכייה: 0</div>
+        <div class="message" id="message"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
