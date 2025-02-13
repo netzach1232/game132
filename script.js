@@ -13,7 +13,6 @@ async function loadResults() {
 
         console.log("כותרות מה-CSV:", rows[0]); // נבדוק איך נראות הכותרות האמיתיות
 
-        // בדיקה ידנית של שם העמודה הנכון
         const leafIndex = rows[0].findIndex(col => col.includes("???")); // מחפש כל עמודה עם "???"
         if (leafIndex === -1) throw new Error('עמודת ??? לא נמצאה');
 
@@ -21,8 +20,7 @@ async function loadResults() {
     } catch (error) {
         console.error("שגיאה בטעינת הקובץ: ", error);
     }
-} // <--- כאן הוספתי סוגר שסוגר את הפונקציה
-
+}
 
 function populateSelects() {
     let select = document.getElementById('alea');
