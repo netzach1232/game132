@@ -6,7 +6,7 @@ let totalDraws = 0;
 
 async function loadResults() {
     try {
-        const response = await fetch('https://raw.githubusercontent.com/netzach1232/game132/main/lottery.csv');
+        const response = await fetch('https://raw.githubusercontent.com/netzach1232/REPOSITORY/main/lottery.csv');
         if (!response.ok) throw new Error('בעיה בטעינת הקובץ');
 
         const data = await response.text();
@@ -41,6 +41,11 @@ function populateSelects() {
 document.getElementById("numCards").addEventListener("change", populateSelects);
 
 function drawLottery() {
+    if (currentDraw >= results.length) {
+        document.getElementById('results').innerText = "אין יותר הגרלות זמינות";
+        return;
+    }
+    
     let chosenCards = Array.from(document.getElementsByClassName("cardSelect"))
         .map(select => select.value);
     
