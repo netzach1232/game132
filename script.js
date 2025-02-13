@@ -2,6 +2,7 @@ const cards = ['7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 let results = [];
 let currentDraw = 0;
 let totalWinnings = 0;
+let totalDraws = 0; // ספירת מספר ההגרלות
 
 async function loadResults() {
     try {
@@ -33,36 +34,26 @@ function populateSelects() {
 }
 
 function drawLottery() {
-    if (currentDraw < results.length) {
-        let chosenCard = document.getElementById('alea').value;
-        let betAmount = parseInt(document.getElementById('bet').value);
-        let result = results[currentDraw];
-        document.getElementById('results').innerText = `תוצאה: ${result}`;
-        
-        let messageBox = document.getElementById('message');
-        if (chosenCard === result) {
-            totalWinnings += betAmount * 5;
-            messageBox.innerText = "זכית!";
-            messageBox.style.color = "green";
-        } else {
-            totalWinnings -= betAmount;
-            messageBox.innerText = "הפסדת!";
-            messageBox.style.color = "red";
-        }
-        
-        document.getElementById('winnings').innerText = `סכום זכייה: ${totalWinnings}`;
-        
-        setTimeout(() => { messageBox.innerText = ""; }, 2000);
-        currentDraw++;
+    let numCards = parseInt(document.getElementById('numCards').value); // מספר הקלפים להגרלה
+    if (currentDraw + numCards <= results.length) {
+        let drawnResults = results.slice(currentDraw, currentDraw + numCards);
+        document.getElementById('results').innerText = `תוצאות: ${drawnResults.join(', ')}`;
+        currentDraw += numCards;
+        totalDraws++;
+        document.getElementById('drawCount').innerText = `מספר ההגרלות שביצעת: ${totalDraws}`;
+    } else {
+        document.getElementById('results').innerText = "אין מספיק הגרלות זמינות";
     }
 }
 
 function resetLottery() {
     currentDraw = 0;
     totalWinnings = 0;
+    totalDraws = 0;
     document.getElementById('results').innerText = "תוצאות יופיעו כאן";
     document.getElementById('winnings').innerText = "סכום זכייה: 0";
     document.getElementById('message').innerText = "";
+    document.getElementById('drawCount').innerText = "מספר ההגרלות שביצעת: 0";
 }
 
 window.onload = async function() {
