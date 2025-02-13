@@ -5,7 +5,7 @@ let totalWinnings = 0;
 
 async function loadResults() {
     try {
-        const response = await fetch('./lottery.csv'); // קריאה מהתיקייה המקומית
+        const response = await fetch('../lottery.csv'); // קריאה מהתיקייה המקומית
         if (!response.ok) throw new Error('בעיה בטעינת הקובץ');
         
         const data = await response.text();
