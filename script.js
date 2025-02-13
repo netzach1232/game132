@@ -45,26 +45,26 @@ function drawLottery() {
         document.getElementById('results').innerText = "אין יותר הגרלות זמינות";
         return;
     }
-    
+
     let chosenCards = Array.from(document.getElementsByClassName("cardSelect"))
         .map(select => select.value);
     
     let betAmount = parseInt(document.getElementById("bet").value);
-    let drawnResults = results[currentDraw].slice(0, chosenCards.length);
+    let drawnResults = results[currentDraw].split(" "); // 📌 פירוק התוצאה לרשימה אם היא לא בפורמט נכון
     document.getElementById('results').innerText = `תוצאות: ${drawnResults.join(', ')}`;
-    
+
     let winnings = 0;
     chosenCards.forEach((card, index) => {
-        if (card === drawnResults[index]) {
+        if (drawnResults.includes(card)) { // 🔹 בודק אם הקלף קיים בתוצאה
             winnings += betAmount * 5;
         }
     });
-    
+
     totalWinnings += winnings;
     totalDraws++;
     document.getElementById('winnings').innerText = `סכום זכייה: ${totalWinnings}`;
     document.getElementById('drawCount').innerText = `מספר ההגרלות שביצעת: ${totalDraws}`;
-    
+
     let messageBox = document.getElementById('message');
     if (winnings > 0) {
         messageBox.innerText = "זכית!";
@@ -73,10 +73,11 @@ function drawLottery() {
         messageBox.innerText = "לא זכית!";
         messageBox.style.color = "red";
     }
-    
+
     setTimeout(() => { messageBox.innerText = ""; }, 2000);
     currentDraw++;
 }
+
 
 function resetLottery() {
     currentDraw = 0;
