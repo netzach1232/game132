@@ -5,7 +5,7 @@ let totalWinnings = 0;
 
 async function loadResults() {
     try {
-        const response = await fetch('https://raw.githubusercontent.com/netzach1232/lottery-game/main/lottery.csv');
+        const response = await fetch('https://raw.githubusercontent.com/netzach1232/game132/main/lottery.csv');
         if (!response.ok) throw new Error('בעיה בטעינת הקובץ');
         
         const data = await response.text();
