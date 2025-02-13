@@ -4,7 +4,7 @@ let currentDraw = 0;
 let totalWinnings = 0;
 
 async function loadResults() {
-    const response = await fetch('lottery.csv'); // קובץ ההגרלות צריך להיות באותה תיקייה
+    const response = await fetch('https://raw.githubusercontent.com/netzach1232/lottery-game/main/lottery.csv'); // קישור ישיר לקובץ ה-CSV ב-GitHub
     const data = await response.text();
     const rows = data.split("\n").map(row => row.split(",")); // מחלק את הנתונים
     const leafIndex = rows[0].indexOf("עלה"); // מוצא את עמודת 'עלה'
