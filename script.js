@@ -1,3 +1,8 @@
+const cards = ['7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+let results = [];
+let currentDraw = 0;
+let totalWinnings = 0;
+
 async function loadResults() {
     try {
         const response = await fetch('https://raw.githubusercontent.com/netzach1232/REPOSITORY/main/lottery.csv');
@@ -9,13 +14,14 @@ async function loadResults() {
         console.log("כותרות מה-CSV:", rows[0]); // נבדוק איך נראות הכותרות האמיתיות
 
         // בדיקה ידנית של שם העמודה הנכון
-        const leafIndex = rows[0].findIndex(col => col.includes("???")); // מחפש כל עמודה עם "עלה"
-        if (leafIndex === -1) throw new Error('עמודת עלה לא נמצאה');
+        const leafIndex = rows[0].findIndex(col => col.includes("???")); // מחפש כל עמודה עם "???"
+        if (leafIndex === -1) throw new Error('עמודת ??? לא נמצאה');
 
         results = rows.slice(1).map(row => row[leafIndex]).filter(val => val);
     } catch (error) {
         console.error("שגיאה בטעינת הקובץ: ", error);
     }
+}
 
 function populateSelects() {
     let select = document.getElementById('alea');
