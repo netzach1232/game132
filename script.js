@@ -4,11 +4,19 @@ let currentDraw = 0;
 let totalWinnings = 0;
 
 async function loadResults() {
-    const response = await fetch('https://raw.githubusercontent.com/netzach1232/lottery-game/main/lottery.csv'); // קישור ישיר לקובץ ה-CSV ב-GitHub
-    const data = await response.text();
-    const rows = data.split("\n").map(row => row.split(",")); // מחלק את הנתונים
-    const leafIndex = rows[0].indexOf("עלה"); // מוצא את עמודת 'עלה'
-    results = rows.slice(1).map(row => row[leafIndex]).filter(val => val); // שומר רק את הנתונים של עלה
+    try {
+        const response = await fetch('lottery.csv'); // קריאה מהתיקייה המקומית
+        if (!response.ok) throw new Error('בעיה בטעינת הקובץ');
+        
+        const data = await response.text();
+        const rows = data.split("\n").map(row => row.split(",")); // מחלק את הנתונים
+        const leafIndex = rows[0].indexOf("עלה"); // מוצא את עמודת 'עלה'
+        if (leafIndex === -1) throw new Error('עמודת עלה לא נמצאה');
+        
+        results = rows.slice(1).map(row => row[leafIndex]).filter(val => val); // שומר רק את הנתונים של עלה
+    } catch (error) {
+        console.error("שגיאה בטעינת הקובץ: ", error);
+    }
 }
 
 function populateSelects() {
