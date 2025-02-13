@@ -5,7 +5,7 @@ let totalWinnings = 0;
 
 async function loadResults() {
     try {
-        const response = await fetch('https://raw.githubusercontent.com/netzach1232/REPOSITORY/main/lottery.csv');
+        const response = await fetch('https://raw.githubusercontent.com/netzach1232/game132/main/lottery.csv');
         if (!response.ok) throw new Error('בעיה בטעינת הקובץ');
 
         const data = await response.text();
@@ -21,7 +21,8 @@ async function loadResults() {
     } catch (error) {
         console.error("שגיאה בטעינת הקובץ: ", error);
     }
-}
+} // <--- כאן הוספתי סוגר שסוגר את הפונקציה
+
 
 function populateSelects() {
     let select = document.getElementById('alea');
