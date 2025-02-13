@@ -9,7 +9,7 @@ async function loadResults() {
         console.log("כותרות מה-CSV:", rows[0]); // נבדוק איך נראות הכותרות האמיתיות
 
         // בדיקה ידנית של שם העמודה הנכון
-        const leafIndex = rows[0].findIndex(col => col.includes("עלה")); // מחפש כל עמודה עם "עלה"
+        const leafIndex = rows[0].findIndex(col => col.includes("???")); // מחפש כל עמודה עם "עלה"
         if (leafIndex === -1) throw new Error('עמודת עלה לא נמצאה');
 
         results = rows.slice(1).map(row => row[leafIndex]).filter(val => val);
