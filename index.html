@@ -9,16 +9,20 @@
 <body>
     <div class="container">
         <h1>אתר בדיקות להגרלות</h1>
-        <h3>בחר את הקלפים להגרלה:</h3>
+        <h3>בחר כמה קלפים להגריל:</h3>
         
-        <label>עלה:</label>
-        <select id="alea"></select>
-        <label>לב:</label>
-        <select id="heart"></select>
-        <label>יהלום:</label>
-        <select id="diamond"></select>
-        <label>תלתן:</label>
-        <select id="clover"></select>
+        <label>מספר קלפים:</label>
+        <select id="numCards">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        
+        <br>
+        <label>בחר קלפים:</label>
+        <div id="cardSelection"></div>
         
         <br>
         <label>סכום ההימור:</label>
