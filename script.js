@@ -2,7 +2,7 @@ const cards = ['7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 let results = [];
 let currentDraw = 0;
 let totalWinnings = 0;
-let totalDraws = 0; // ספירת מספר ההגרלות
+let totalDraws = 0;
 
 async function loadResults() {
     try {
@@ -12,37 +12,66 @@ async function loadResults() {
         const data = await response.text();
         const rows = data.split("\n").map(row => row.split(","));
 
-        console.log("כותרות מה-CSV:", rows[0]); // נבדוק איך נראות הכותרות האמיתיות
+        console.log("כותרות מה-CSV:", rows[0]);
 
-        const leafIndex = rows[0].findIndex(col => col.includes("???")); // מחפש כל עמודה עם "???"
-        if (leafIndex === -1) throw new Error('עמודת ??? לא נמצאה');
-
-        results = rows.slice(1).map(row => row[leafIndex]).filter(val => val);
+        results = rows.slice(1).map(row => row.slice(2, 6)); // שמירת 4 הקלפים מכל שורה
     } catch (error) {
         console.error("שגיאה בטעינת הקובץ: ", error);
     }
 }
 
 function populateSelects() {
-    let select = document.getElementById('alea');
-    cards.forEach(card => {
-        let option = document.createElement('option');
-        option.value = card;
-        option.textContent = card;
-        select.appendChild(option);
+    let suits = ['alea', 'heart', 'diamond', 'clover'];
+    suits.forEach(suit => {
+        let select = document.getElementById(suit);
+        cards.forEach(card => {
+            let option = document.createElement('option');
+            option.value = card;
+            option.textContent = card;
+            select.appendChild(option);
+        });
     });
 }
 
 function drawLottery() {
-    let numCards = parseInt(document.getElementById('numCards').value); // מספר הקלפים להגרלה
-    if (currentDraw + numCards <= results.length) {
-        let drawnResults = results.slice(currentDraw, currentDraw + numCards);
+    if (currentDraw < results.length) {
+        let chosenCards = {
+            alea: document.getElementById('alea').value,
+            heart: document.getElementById('heart').value,
+            diamond: document.getElementById('diamond').value,
+            clover: document.getElementById('clover').value
+        };
+        
+        let betAmount = parseInt(document.getElementById('bet').value);
+        let drawnResults = results[currentDraw];
         document.getElementById('results').innerText = `תוצאות: ${drawnResults.join(', ')}`;
-        currentDraw += numCards;
+        
+        let messageBox = document.getElementById('message');
+        let winnings = 0;
+        
+        Object.keys(chosenCards).forEach((key, index) => {
+            if (chosenCards[key] === drawnResults[index]) {
+                winnings += betAmount * 5;
+            }
+        });
+        
+        totalWinnings += winnings;
         totalDraws++;
+        document.getElementById('winnings').innerText = `סכום זכייה: ${totalWinnings}`;
         document.getElementById('drawCount').innerText = `מספר ההגרלות שביצעת: ${totalDraws}`;
+        
+        if (winnings > 0) {
+            messageBox.innerText = "זכית!";
+            messageBox.style.color = "green";
+        } else {
+            messageBox.innerText = "לא זכית!";
+            messageBox.style.color = "red";
+        }
+        
+        setTimeout(() => { messageBox.innerText = ""; }, 2000);
+        currentDraw++;
     } else {
-        document.getElementById('results').innerText = "אין מספיק הגרלות זמינות";
+        document.getElementById('results').innerText = "אין יותר הגרלות זמינות";
     }
 }
 
